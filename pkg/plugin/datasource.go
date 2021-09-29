@@ -181,7 +181,7 @@ func (ds *MQTTDatasource) SendMessage(msg mqtt.StreamMessage, req *backend.RunSt
 
 	message := mqtt.Message{
 		Timestamp: time.Now(),
-		Value:     msg.Value,
+		Value:     "{a:10}",
 	}
 
 	frame := ToFrame(msg.Topic, []mqtt.Message{message})
