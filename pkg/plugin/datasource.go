@@ -179,9 +179,16 @@ func (ds *MQTTDatasource) SendMessage(msg mqtt.StreamMessage, req *backend.RunSt
 		return nil
 	}
 
+	var result map[string]interface{}
+	json.Unmarshal([]byte(msg.Value), &result)
+	jsonString, err := json.Marshal(result["fields"])
+	fmt.Println(err)
+
+	// log.DefaultLogger.Info(fmt.Sprintf("Sending %s to grafana", string(jsonString)))
+
 	message := mqtt.Message{
 		Timestamp: time.Now(),
-		Value:     "{a:10}",
+		Value:     string(jsonString),
 	}
 
 	frame := ToFrame(msg.Topic, []mqtt.Message{message})
